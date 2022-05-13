@@ -1,15 +1,44 @@
 import React from "react";
-import { HStack, ScrollView } from "native-base";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { DefaultText, DefaultView } from "../../components/Themed";
 import Crousel from "../../components/Crousel/Crousel";
+import Colors from "../../constants/Colors";
+import useColorScheme from "../../hooks/useColorScheme";
+import PractiseLineChart from "../../components/Charts/Practise/LineChart";
 
 export default function Home() {
+    const colorScheme = useColorScheme();
+
     return (
-        <DefaultView>
+        <ScrollView>
             <Crousel imgUri={imgArry} />
-        </DefaultView>
+            <View style={styles.practiseCard}>
+                <PractiseLineChart inputData={practData} />
+            </View>
+            <View style={styles.practiseCard}>
+                <PractiseLineChart inputData={compData} />
+            </View>
+        </ScrollView>
     )
 }
+
+const styles = StyleSheet.create({
+    practiseCard: {
+        borderRadius: 20,
+        shadowColor: "rgba(0,0,0,0.2)",
+        width: "100%",
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 10,
+        shadowColor: '#171717',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+    }
+});
+
+const practData = [110, 221, 223, 34, 333, 22, 33, 44, 5, 66]
+const compData = [22, 33, 3, 53, 234, 534, 65, 65, 656, 566]
 
 const imgArry = [
     "https://natureconservancy-h.assetsadobe.com/is/image/content/dam/tnc/nature/en/photos/TNC_PC2021_450b6776aee8195158c113bac7b342a0-original.jpg?crop=0,26,4000,2200&wid=4000&hei=2200&scl=1.0",

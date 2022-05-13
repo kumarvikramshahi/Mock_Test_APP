@@ -19,7 +19,7 @@ const Crousel = ({ imgUri }) => {
                             height: 200,
                             borderRadius: 10,
                             marginRight: 10,
-                            marginLeft: 10
+                            marginLeft: 15
                         }}
                     />
                 )}

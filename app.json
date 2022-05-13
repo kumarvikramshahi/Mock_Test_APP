@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "idealTutor_frontend",
-    "slug": "idealTutor_frontend",
+    "name": "mocktestapp",
+    "slug": "mocktestapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
