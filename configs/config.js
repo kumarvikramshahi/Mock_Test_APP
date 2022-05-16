@@ -2,7 +2,7 @@
 
 const dev = {
     apis: {
-        idealTutor: `http://192.168.1.14:8080`,
+        idealTutor: `http://192.168.1.26:8080`,
     }
 };
 
@@ -14,7 +14,7 @@ const prod = {
 
 const staging = {
     apis: {
-        idealTutor: `http://192.168.1.138080`,
+        idealTutor: `http://192.168.1.13:8080`,
     }
 };
 

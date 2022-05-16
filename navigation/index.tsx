@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable, StyleSheet,View } from 'react-native';
+import { ColorSchemeName, Pressable, StyleSheet, View } from 'react-native';
 import { HStack } from 'native-base';
 
 import Colors from '../constants/Colors';
@@ -16,10 +16,13 @@ import useColorScheme from '../hooks/useColorScheme';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
-import Home from '../screens/User/Home';
-import Practise from '../screens/User/Practise';
-import Contest from '../screens/User/Contest';
-import Profile from '../screens/User/Profile';
+import Home from '../screens/Home/Home';
+import Practise from '../screens/Practice';
+import Contest from '../screens/Contest/Contest';
+import Profile from '../screens/Profile/Profile';
+import Instructions from '../screens/Practice/Instructions';
+import ExamScreen from '../screens/Practice/ExamScreen';
+import RightScreen from '../screens/Practice/RightScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -42,10 +45,12 @@ function RootNavigator() {
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      {/* <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Search" component={Search} />
-      </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen name="Instructions" component={Instructions} options={{ headerShown: false }} />
+        <Stack.Screen name="ExamScreen" component={ExamScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="ExamRightScreen" component={RightScreen} options={{ title: 'Question List' }} />
+      </Stack.Group>
+      {/* <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Wishlist" component={Wishlist} />
       </Stack.Group> */}
     </Stack.Navigator>

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { ScrollView, CheckIcon, Select, FormControl, WarningOutlineIcon, Center, View, Button } from "native-base";
 import Colors from "../../constants/Colors";
 import { idealTutorApi } from "../../constants/constants";
 import useColorScheme from "../../hooks/useColorScheme";
+import PopUp from "../../components/UI/PopUp";
+import CustomButton from "../../components/UI/CustomButton";
 
-export default function Practise() {
+export default function Practise({ navigation }) {
     const [examType, setExamType] = useState('');
     const [paperList, setPaperList] = useState([]);
     const [loading, setLoader] = useState(false);
@@ -13,6 +15,7 @@ export default function Practise() {
     const [paperDetail, setPaperDetail] = useState(null);
     const [smallLoader, setSmallLoader] = useState(false);
     const [message, setMessage] = useState('');
+    const [modalVisible, setModalVisible] = useState(false); // for PopUps
 
     const colorScheme = useColorScheme();
 
@@ -25,7 +28,12 @@ export default function Practise() {
     });
 
     const startPractise = (e) => {
-        console.log("hi")
+        if (examType && (paperList.length))
+            navigation.navigate('Instructions')
+        else {
+            setModalVisible(true)
+            setMessage("Choose Exam Type and Paper both, to Start Practice :)")
+        }
     }
 
     useEffect(() => {
@@ -112,7 +120,8 @@ export default function Practise() {
                         </FormControl>
                     </Center>
                 </View>
-                <Button style={styles.btn} onPress={(e) => startPractise(e)}>Start practise</Button>
+                <CustomButton value="Start practise" btnHandler={startPractise} fontSize={18} />
+                <PopUp message={message} modalVisible={modalVisible} setModalVisible={setModalVisible} />
             </Center>
         </ScrollView >
     )
@@ -136,12 +145,4 @@ const styles = StyleSheet.create({
         width: "95%",
         elevation: 10
     },
-    btn: {
-        margin: 20,
-        borderRadius: 10,
-        padding: 8,
-        height: 45,
-        fontSize: 22,
-        elevation: 10,
-    }
 });

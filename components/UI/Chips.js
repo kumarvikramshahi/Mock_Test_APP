@@ -1,8 +1,8 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
-import { DefaultText, DefaultView } from "../components/Themed";
-import useColorScheme from '../hooks/useColorScheme';
-import Colors from "../constants/Colors";
+import { DefaultText, DefaultView } from "../Themed";
+import useColorScheme from '../../hooks/useColorScheme';
+import Colors from "../../constants/Colors";
 
 export default function Chips({ value, setClickedSubject, setClickedClass, skillSubjects }) {
     const filterBtn = (e) => {
