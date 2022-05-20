@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text } from "react-native";
 import { ScrollView, CheckIcon, Select, FormControl, WarningOutlineIcon, Center, View, Button } from "native-base";
+import Realm from "realm";
 import Colors from "../../constants/Colors";
 import { idealTutorApi } from "../../constants/constants";
 import useColorScheme from "../../hooks/useColorScheme";
 import PopUp from "../../components/UI/PopUp";
 import CustomButton from "../../components/UI/CustomButton";
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function Practise({ navigation }) {
     const [examType, setExamType] = useState('');
@@ -16,6 +18,8 @@ export default function Practise({ navigation }) {
     const [smallLoader, setSmallLoader] = useState(false);
     const [message, setMessage] = useState('');
     const [modalVisible, setModalVisible] = useState(false); // for PopUps
+
+    const FontAwesomeTag = <FontAwesome name="cloud-download" size={24} color="black" />
 
     const colorScheme = useColorScheme();
 
@@ -34,6 +38,10 @@ export default function Practise({ navigation }) {
             setModalVisible(true)
             setMessage("Choose Exam Type and Paper both, to Start Practice :)")
         }
+    }
+
+    const onPaperSelect = () => {
+        console.log("hi")
     }
 
     useEffect(() => {
@@ -106,11 +114,11 @@ export default function Practise({ navigation }) {
                                     borderRadius: 20,
                                     borderWidth: 4,
                                     endIcon: <CheckIcon size="5" />,
-                                }}
-                                mt={1} onValueChange={itemValue => setPaperId(itemValue)}
+                                }} mt={1}
+                                onValueChange={itemValue => { setPaperId(itemValue); onPaperSelect(); }}
                             >
                                 {paperList?.length ?
-                                    paperList.map((item, idx) => <Select.Item key={idx} color={Colors[colorScheme].text} label={item.name} value={item._id} />)
+                                    paperList.map((item, idx) => <Select.Item key={idx} color={Colors[colorScheme].text} label={item.name + FontAwesomeTag} value={item._id} />)
                                     : <Select.Item color={Colors[colorScheme].text} label="Choose Exam Type to see Paper List." value="" />
                                 }
                             </Select>

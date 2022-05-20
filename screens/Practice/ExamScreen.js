@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, HStack, Select, CheckIcon } from "native-base";
-import { StyleSheet, StatusBar, ScrollView, BackHandler, Alert } from "react-native";
+import { StyleSheet, StatusBar, ScrollView, BackHandler, Alert, Vibration, Platform } from "react-native";
+import Realm from "realm";
 import CustomButton from "../../components/UI/CustomButton";
 import { AntDesign } from '@expo/vector-icons';
+import { FontSize } from "../../constants/constants";
+import QuestionsCard from "../../components/PracticeSession/QuestionCard";
+import PaperSchema from "../../Schemas/PaperList";
 // import PopUp from "../../components/UI/PopUp";
 
 export default function ExamScreen({ navigation, route }) {
@@ -16,12 +20,19 @@ export default function ExamScreen({ navigation, route }) {
             marginTop: StatusBar.currentHeight + 2,
             flex: 1,
             alignContent: "center",
-            justifyContent: "center"
+            justifyContent: "flex-start"
         }
     });
 
+    useEffect(async () => {
+        const realm = await Realm.open({
+            schema: [PaperSchema],
+        });
+    }, [])
+
     useEffect(() => {
         const backAction = () => {
+            if (Platform.OS == 'android') Vibration.vibrate(50);
             Alert.alert("Hold on!", "Are you sure you want to Exit EXAM?", [
                 {
                     text: "Cancel",
@@ -41,15 +52,15 @@ export default function ExamScreen({ navigation, route }) {
     }, [route?.key])
 
     return (
-        <View style={{ ...styles.card, ...styles2.parentView }}>
+        <View style={{ ...styles.container, ...styles2.parentView }}>
 
             {/* Header */}
             <View style={styles.header}>
-                <Text style={{ ...styles.headerText, flex: 3 }}>
+                <Text style={{ ...styles.headerText, flex: 3, fontSize: FontSize.large }}>
                     {/* {paperName} */}
                     JEE 2018 Paper-1
                 </Text>
-                <Text style={{ ...styles.headerText, flex: 1 }}>
+                <Text style={{ ...styles.headerText, flex: 1, fontSize: FontSize.large }}>
                     2:40:30
                 </Text>
             </View>
@@ -57,22 +68,22 @@ export default function ExamScreen({ navigation, route }) {
             {/* Neck */}
             <View style={{ flexDirection: "row" }}>
                 <View style={styles.selectTag}>
-                    <Select selectedValue={subject} minWidth="100" accessibilityLabel="Choose Subject" placeholder="Choose Subject"
+                    <Select selectedValue={subject} minWidth="100" accessibilityLabel="Subject" placeholder="Subjects..."
                         _selectedItem={{
                             bg: "teal.600",
                             endIcon: <CheckIcon size="5" />
-                        }} mt={1}
+                        }} mt={1} style={{ fontSize: FontSize.small }}
                         onValueChange={itemValue => setSubject(itemValue)}
                     >
                         {subjectList?.map((item, idx) => <Select.Item key={idx} label={item.toLowerCase()} value={item} />)}
                     </Select>
                 </View>
                 <View style={styles.selectTag}>
-                    <Select selectedValue={language} minWidth="100" accessibilityLabel="Choose Language" placeholder="Choose Language"
+                    <Select selectedValue={language} minWidth="100" accessibilityLabel="Language" placeholder="Languages..."
                         _selectedItem={{
                             bg: "teal.600",
                             endIcon: <CheckIcon size="5" />
-                        }} mt={1}
+                        }} mt={1} style={{ fontSize: FontSize.small }}
                         onValueChange={itemValue => setLanguage(itemValue)}
                     >
                         {languageList?.map((item, idx) => <Select.Item key={idx} label={item.toLowerCase()} value={item} />)}
@@ -87,24 +98,21 @@ export default function ExamScreen({ navigation, route }) {
             </View>
 
             {/* Question Card */}
-            <ScrollView>
-                <Text style={styles.infoText}>
-
-                </Text>
-            </ScrollView>
+            <View>
+                <QuestionsCard />
+            </View>
         </View >
     )
 }
 
 const styles = StyleSheet.create({
-    card: {
+    container: {
         borderRadius: 20,
         paddingBottom: 40,
         elevation: 10,
         backgroundColor: "#fff"
     },
     headerText: {
-        fontSize: 22,
         fontWeight: "bold",
     },
     header: {
@@ -114,7 +122,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     infoText: {
-        fontSize: 16
     },
     selectTag: {
         marginTop: 2,

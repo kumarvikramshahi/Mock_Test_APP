@@ -13,7 +13,7 @@ export default function Instructions({ navigation, instructions }) {
             marginTop: StatusBar.currentHeight + 5,
             flex: 1,
             alignContent: "center",
-            justifyContent: "center"
+            justifyContent: "flex-start"
         }
     });
 
