@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text } from "react-native";
 import { ScrollView, CheckIcon, Select, FormControl, WarningOutlineIcon, Center, View, Button } from "native-base";
-import Realm from "realm";
+// import Realm from "realm";
 import Colors from "../../constants/Colors";
 import { idealTutorApi } from "../../constants/constants";
 import useColorScheme from "../../hooks/useColorScheme";
 import PopUp from "../../components/UI/PopUp";
 import CustomButton from "../../components/UI/CustomButton";
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import PaperSchema from "../../Schemas/PaperList";
+import PaperListCard from "../../components/PracticeSession/PaperListCard";
 
 export default function Practise({ navigation }) {
     const [examType, setExamType] = useState('');
@@ -18,10 +20,13 @@ export default function Practise({ navigation }) {
     const [smallLoader, setSmallLoader] = useState(false);
     const [message, setMessage] = useState('');
     const [modalVisible, setModalVisible] = useState(false); // for PopUps
-
-    const FontAwesomeTag = <FontAwesome name="cloud-download" size={24} color="black" />
+    const [realm, setRealm] = useState(null);
+    const [cardOn, setCardOn] = useState(false)
 
     const colorScheme = useColorScheme();
+
+    // <MaterialIcons name="file-download-done" size={24} color="black" />
+    // <FontAwesome name="cloud-download" size={24} color="black" />
 
     const styles2 = StyleSheet.create({
         theme: {
@@ -40,9 +45,26 @@ export default function Practise({ navigation }) {
         }
     }
 
-    const onPaperSelect = () => {
-        console.log("hi")
+    const isDownloaded = () => {
+        if (realm && paperId) {
+            console.log(paperId)
+            const newTask = realm.objectForPrimaryKey("PaperList", paperId);
+            console.log(newTask)
+        } else console.log("no realm")
     }
+
+    const onPaperSelect = async () => {
+        console.log("hi")
+
+    }
+
+    // useEffect(async () => {
+    //     const realmOpen = await Realm.open({
+    //         schema: [PaperSchema],
+    //     });
+    //     console.log(realm)
+    //     setRealm(realmOpen);
+    // }, [])
 
     useEffect(() => {
         if (examType) {
@@ -97,8 +119,8 @@ export default function Practise({ navigation }) {
                                     borderRadius: 20,
                                     borderWidth: 4,
                                     endIcon: <CheckIcon size="5" />,
-                                }}
-                                mt={1} onValueChange={itemValue => setExamType(itemValue)}
+                                }} mt={1}
+                                onValueChange={itemValue => { setCardOn(true); setExamType(itemValue); }}
                             >
                                 {examList.map((item, idx) => <Select.Item key={idx} color={Colors[colorScheme].text} label={item} value={item.toLowerCase()} />)}
                             </Select>
@@ -106,25 +128,11 @@ export default function Practise({ navigation }) {
                                 Please make a selection!
                             </FormControl.ErrorMessage>
 
-                            <FormControl.Label style={styles.label}>Paper List</FormControl.Label>
-                            <Select accessibilityLabel="Choose Paper" placeholder="Choose Paper"
-                                style={styles2.theme}
-                                _selectedItem={{
-                                    borderColor: "#079bb8",
-                                    borderRadius: 20,
-                                    borderWidth: 4,
-                                    endIcon: <CheckIcon size="5" />,
-                                }} mt={1}
-                                onValueChange={itemValue => { setPaperId(itemValue); onPaperSelect(); }}
-                            >
-                                {paperList?.length ?
-                                    paperList.map((item, idx) => <Select.Item key={idx} color={Colors[colorScheme].text} label={item.name + FontAwesomeTag} value={item._id} />)
-                                    : <Select.Item color={Colors[colorScheme].text} label="Choose Exam Type to see Paper List." value="" />
-                                }
-                            </Select>
-                            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                                Please make a selection!
-                            </FormControl.ErrorMessage>
+                            {paperList.length ? (
+                                <View accessible={true} onPress={() => setCardOn(!cardOn)} style={styles.PaperListCard} >
+                                    <PaperListCard paperList={paperList} setPaperId={setPaperId} />
+                                </View>
+                            ) : null}
                         </FormControl>
                     </Center>
                 </View>
@@ -153,4 +161,9 @@ const styles = StyleSheet.create({
         width: "95%",
         elevation: 10
     },
+    PaperListCard: {
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0,0,0,0.2)"
+    }
 });

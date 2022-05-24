@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, HStack, Select, CheckIcon } from "native-base";
 import { StyleSheet, StatusBar, ScrollView, BackHandler, Alert, Vibration, Platform } from "react-native";
-import Realm from "realm";
+// import Realm from "realm";
 import CustomButton from "../../components/UI/CustomButton";
 import { AntDesign } from '@expo/vector-icons';
 import { FontSize } from "../../constants/constants";
@@ -24,11 +24,11 @@ export default function ExamScreen({ navigation, route }) {
         }
     });
 
-    useEffect(async () => {
-        const realm = await Realm.open({
-            schema: [PaperSchema],
-        });
-    }, [])
+    // useEffect(async () => {
+    //     const realm = await Realm.open({
+    //         schema: [PaperSchema],
+    //     });
+    // }, [])
 
     useEffect(() => {
         const backAction = () => {
