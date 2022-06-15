@@ -1,70 +1,139 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text } from "react-native";
-import { ScrollView, CheckIcon, Select, FormControl, WarningOutlineIcon, Center, View, Button } from "native-base";
-// import Realm from "realm";
+import { StyleSheet, ScrollView, View, Text, RefreshControl } from "react-native";
+import { Box, CheckIcon, Select, FormControl, Center, useToast, } from "native-base";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors from "../../constants/Colors";
 import { idealTutorApi } from "../../constants/constants";
 import useColorScheme from "../../hooks/useColorScheme";
-import PopUp from "../../components/UI/PopUp";
 import CustomButton from "../../components/UI/CustomButton";
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import PaperSchema from "../../Schemas/PaperList";
-import PaperListCard from "../../components/PracticeSession/PaperListCard";
+import { FontAwesome, MaterialIcons, Entypo } from '@expo/vector-icons';
+// import PaperListCard from "../../components/PracticeSession/PaperListCard";
+import CustomSelectTag from "../../components/PracticeSession/CustomSelectTag";
+import FullScreenSpinner from "../../components/UI/FullScreenSpinner";
 
 export default function Practise({ navigation }) {
+    const [useEffectCleanUp, setUseEffectCleanUp] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
     const [examType, setExamType] = useState('');
     const [paperList, setPaperList] = useState([]);
     const [loading, setLoader] = useState(false);
     const [paperId, setPaperId] = useState('');
-    const [paperDetail, setPaperDetail] = useState(null);
-    const [smallLoader, setSmallLoader] = useState(false);
-    const [message, setMessage] = useState('');
+    const [selectedPaperName, setselectedPaperName] = useState('');
+    // const [paperDetail, setPaperDetail] = useState(null);
+    const [listItemLoader, setListItemLoader] = useState({ value: false, id: '' });
     const [modalVisible, setModalVisible] = useState(false); // for PopUps
-    const [realm, setRealm] = useState(null);
-    const [cardOn, setCardOn] = useState(false)
+    const [cardOn, setCardOn] = useState(false); //
+    const [selectTagOn, setSelectTagOn] = useState(false);
+    // const [isPaperDownloaded, setIsPaperDownloaded] = useState(false);
+    const [asyncKeys, setAsyncKeys] = useState([]);
 
+
+    // const { height, width } = useWindowDimensions();
     const colorScheme = useColorScheme();
-
-    // <MaterialIcons name="file-download-done" size={24} color="black" />
-    // <FontAwesome name="cloud-download" size={24} color="black" />
+    const toast = useToast();
 
     const styles2 = StyleSheet.create({
         theme: {
             color: Colors[colorScheme].text,
             backgroundColor: Colors[colorScheme].background,
             fontSize: 25,
+            shadowColor: Colors[colorScheme].text
         },
+        tickIcon: {
+            maxWidth: 25,
+            height: 25,
+            borderRadius: 50,
+            backgroundColor: Colors[colorScheme].text,
+            marginRight: 10
+        }
+        // screenWidth: {
+        //     width: width
+        // },
+        // sreenHeight: {
+        //     height: height
+        // }
     });
 
+    const CustomToast = (message, position, color) => {
+        toast.show({
+            render: () => {
+                return <Box bg={color ? color : "#fac2be"} px="2" py="1" rounded="md" mb={50}>
+                    {message}
+                </Box>;
+            },
+            placement: position ? position : "top"
+        });
+    }
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        setExamType(''); setPaperList([]); setLoader(false); setPaperId('');
+        setselectedPaperName(''); setListItemLoader({ value: false, id: '' });
+        setModalVisible(false); setCardOn(false); setSelectTagOn(false);
+        setRefreshing(false);
+    }
+
+    const downloadPaper = (id) => {
+        setListItemLoader({ value: true, id: id })
+        fetch(idealTutorApi + `/practice_paper/fetch/?paper_id=${id}`)
+            .then(data => data.json())
+            .then(async (jsonData) => {
+                if (jsonData?.data) {
+                    try {
+                        for (let item of paperList) {
+                            if (item._id === jsonData.data._id)
+                                item['is_Downloaded'] = true
+                        }
+                        setAsyncKeys([...asyncKeys, `@paper_${jsonData.data._id}`])
+                        await AsyncStorage.setItem(`@paper_${jsonData.data._id}`, JSON.stringify(jsonData.data))
+                    } catch (err) {
+                        CustomToast(err.message)
+                    }
+                    setListItemLoader({ value: false, id: id })
+                } else CustomToast(jsonData.message);
+            })
+            .catch(err => {
+                setListItemLoader({ value: false, id: id })
+                CustomToast(err.message)
+            })
+    }
+
+    const onPaperSelect = (id, name, isDownloaded) => {
+        if (!listItemLoader.value && isDownloaded) {
+            setSelectTagOn(false)
+            setPaperId(id)
+            setselectedPaperName(name);
+        } else CustomToast("Download file to proceed further")
+    }
+
     const startPractise = (e) => {
-        if (examType && (paperList.length))
-            navigation.navigate('Instructions')
+        if (examType && paperId)
+            navigation.navigate('Instructions', { paperId: "@paper_" + paperId })
         else {
-            setModalVisible(true)
-            setMessage("Choose Exam Type and Paper both, to Start Practice :)")
+            if (examType && !paperId)
+                CustomToast("Choose Paper :)")
+            else {
+                CustomToast("Choose Exam Type :)")
+            }
         }
     }
 
-    const isDownloaded = () => {
-        if (realm && paperId) {
-            console.log(paperId)
-            const newTask = realm.objectForPrimaryKey("PaperList", paperId);
-            console.log(newTask)
-        } else console.log("no realm")
-    }
+    useEffect(() => {
+        const loadAsyncKeys = async () => {
+            try {
+                setLoader(true)
+                const keys = await AsyncStorage.getAllKeys();
+                setAsyncKeys(keys)
+                setLoader(false)
+            } catch (e) {
+                setLoader(false)
+                CustomToast(e.message)
+            }
+        }
+        loadAsyncKeys();
 
-    const onPaperSelect = async () => {
-        console.log("hi")
-
-    }
-
-    // useEffect(async () => {
-    //     const realmOpen = await Realm.open({
-    //         schema: [PaperSchema],
-    //     });
-    //     console.log(realm)
-    //     setRealm(realmOpen);
-    // }, [])
+        return () => setUseEffectCleanUp(!useEffectCleanUp);
+    }, [refreshing])
 
     useEffect(() => {
         if (examType) {
@@ -72,41 +141,48 @@ export default function Practise({ navigation }) {
             fetch(idealTutorApi + `/practice_paper/fetch/?exam_type=${examType.toLowerCase()}`)
                 .then(data => data.json())
                 .then(jsonData => {
-                    if (jsonData.data) setPaperList(jsonData.data);
-                    else setMessage(jsonData.message);
+                    if (jsonData?.data) {
+                        let jsonDataObj = jsonData.data;
+                        const len = jsonDataObj.length;
+                        for (let item of asyncKeys) {
+                            for (let i = 0; i < len; i++) {
+                                if (item === "@paper_" + jsonDataObj[i]._id) {
+                                    jsonDataObj[i]['is_Downloaded'] = true;
+                                }
+                            }
+                        }
+                        setPaperList(jsonDataObj)
+                    } else {
+                        setPaperList([])
+                        setselectedPaperName('');
+                        CustomToast(jsonData.message)
+                    }
                     setLoader(false)
                 })
                 .catch(err => {
-                    console.log(err)
                     setLoader(false)
+                    CustomToast(err.message)
                 })
         }
 
-        return setPaperList({})
+        return () => setUseEffectCleanUp(!useEffectCleanUp);
     }, [examType])
 
     useEffect(() => {
-        if (paperId) {
-            setSmallLoader(true)
-            fetch(idealTutorApi + `/practice_paper/fetch/?paper_id=${paperId}`)
-                .then(data => data.json())
-                .then(jsonData => {
-                    if (jsonData.data) {
-                        setPaperDetail(jsonData.data)
-                        setSmallLoader(false)
-                    } else setMessage(jsonData.message)
-                })
-                .catch(err => {
-                    console.log(err)
-                    setSmallLoader(false)
-                })
-        }
-
-        return setPaperDetail({})
-    }, [paperId])
+        if (paperList.length && examType) setSelectTagOn(true);
+        else setSelectTagOn(false)
+    }, [examType, paperList.length, cardOn])
 
     return (
-        <ScrollView>
+        <ScrollView
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                />
+            }
+        >
+            {loading ? <FullScreenSpinner /> : null}
             <Center>
                 <View style={{ ...styles.card, ...styles2.theme }}>
                     <Center>
@@ -120,24 +196,41 @@ export default function Practise({ navigation }) {
                                     borderWidth: 4,
                                     endIcon: <CheckIcon size="5" />,
                                 }} mt={1}
-                                onValueChange={itemValue => { setCardOn(true); setExamType(itemValue); }}
+                                onValueChange={itemValue => { setCardOn(!cardOn); setExamType(itemValue); }}
+                                selectedValue={examType}
                             >
                                 {examList.map((item, idx) => <Select.Item key={idx} color={Colors[colorScheme].text} label={item} value={item.toLowerCase()} />)}
                             </Select>
-                            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                                Please make a selection!
-                            </FormControl.ErrorMessage>
-
-                            {paperList.length ? (
-                                <View accessible={true} onPress={() => setCardOn(!cardOn)} style={styles.PaperListCard} >
-                                    <PaperListCard paperList={paperList} setPaperId={setPaperId} />
+                            {selectedPaperName ? (
+                                <View style={styles.selectedPaperName}>
+                                    <View style={{ flex: 0.18, ...styles2.tickIcon }}>
+                                        <MaterialIcons name="done" size={24} color={Colors[colorScheme].background} />
+                                    </View>
+                                    <View style={{ flex: 2 }}>
+                                        <Text style={{ color: Colors[colorScheme].text }}>
+                                            {selectedPaperName}
+                                        </Text>
+                                    </View>
                                 </View>
                             ) : null}
+
+                            {/* Paper List */}
+                            <CustomSelectTag
+                                list={paperList}
+                                selectedValue={paperId}
+                                selectTagOn={selectTagOn}
+                                setSelectTagOn={setSelectTagOn}
+                                textClickHandler={onPaperSelect}
+                                icon1={<MaterialIcons name="file-download-done" size={24} color={Colors[colorScheme].text} />}
+                                icon2={<FontAwesome name="cloud-download" size={24} color={Colors[colorScheme].text} />}
+                                crossIcon={<Entypo name="cross" size={32} color={Colors[colorScheme].text} />}
+                                downloadPaper={downloadPaper}
+                                listItemLoader={listItemLoader}
+                            />
                         </FormControl>
                     </Center>
                 </View>
                 <CustomButton value="Start practise" btnHandler={startPractise} fontSize={18} />
-                <PopUp message={message} modalVisible={modalVisible} setModalVisible={setModalVisible} />
             </Center>
         </ScrollView >
     )
@@ -149,8 +242,6 @@ const styles = StyleSheet.create({
     label: {
         marginTop: 15
     },
-    selectTag: {
-    },
     card: {
         marginTop: 20,
         borderRadius: 20,
@@ -159,11 +250,14 @@ const styles = StyleSheet.create({
         paddingTop: 30,
         paddingBottom: 40,
         width: "95%",
-        elevation: 10
+        elevation: 20,
     },
     PaperListCard: {
-        width: "100%",
-        height: "100%",
         backgroundColor: "rgba(0,0,0,0.2)"
-    }
+    },
+    selectedPaperName: {
+        marginTop: 20,
+        marginHorizontal: 20,
+        flexDirection: "row",
+    },
 });

@@ -1,6 +1,6 @@
 import React from "react";
-import { Image } from "react-native";
-import { HStack, ScrollView } from "native-base";
+import { Image, ScrollView } from "react-native";
+import { HStack } from "native-base";
 import { DefaultView } from "../Themed";
 
 const Crousel = ({ imgUri }) => {

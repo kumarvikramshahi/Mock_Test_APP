@@ -5,15 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d01edd1-af9c-4aef-99a4-dffd0245098e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Schemas/PaperList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/configs/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/configs/config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/navigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/navigation/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/student/BookSession.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/student/Dashboard.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/student/Home.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/student/Notification.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/student/Profile.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/student/Search.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/student/SessionHistory.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/student/Wishlist.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redux/action/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/redux/store.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Practice/ExamScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Practice/ExamScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Practice/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Practice/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

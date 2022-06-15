@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { View, Text } from "native-base";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, View, Text } from "react-native";
 import { FontSize } from "../../constants/constants";
 
 export default function QuestionsCard({ question }) {

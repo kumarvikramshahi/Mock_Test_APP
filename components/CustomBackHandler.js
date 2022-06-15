@@ -1,6 +1,5 @@
-import { View, Text } from "native-base";
 import React from "react";
-import { StyleSheet, StatusBar, ScrollView, BackHandler, Alert } from "react-native";
+import { StyleSheet, StatusBar, ScrollView, BackHandler, Alert, View, Text } from "react-native";
 
 export default function CustomBackHandler({ route, name, message }) {
     const backAction = () => {

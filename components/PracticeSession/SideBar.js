@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "native-base";
+import { Modal, View, Text } from "react-native";
 
 export default function SideBar() {
     return (
