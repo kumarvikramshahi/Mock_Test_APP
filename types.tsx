@@ -19,7 +19,7 @@ export type RootStackParamList = {
   Search: undefined;
   Instructions: undefined;
   ExamScreen: undefined;
-  ExamRightScreen: undefined;
+  Evaluation: undefined;
   NotFound: undefined;
 };
 

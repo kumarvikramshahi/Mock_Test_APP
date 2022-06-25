@@ -1,5 +1,5 @@
 import React from "react";
-import { DefaultText } from "../../components/Themed";
+import { DefaultText } from "../../components/UI/Themed";
 
 export default function Contest() {
     return (

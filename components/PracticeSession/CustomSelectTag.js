@@ -13,8 +13,10 @@ const CustomSelectTag = ({
     textClickHandler,
     icon1,
     icon2,
+    deleteIcon,
     crossIcon,
     downloadPaper,
+    deletePaper,
     listItemLoader
 }) => {
     const colorScheme = useColorScheme();
@@ -23,14 +25,6 @@ const CustomSelectTag = ({
             color: Colors[colorScheme].text,
             backgroundColor: Colors[colorScheme].background,
             shadowColor: Colors[colorScheme].text
-        },
-        Text: {
-            padding: 20,
-            textAlign: "center",
-            flexDirection: "row",
-            borderRadius: 50,
-            margin: 1,
-            elevation: 20,
         },
         selectedValue: {
             borderWidth: 4,
@@ -55,20 +49,44 @@ const CustomSelectTag = ({
                     <View style={[styles.modalView]}>
                         {list?.length ? list?.map((item, idx) => {
                             return (
-                                <TouchableOpacity key={idx} activeOpacity={0.7}
-                                    style={selectedValue === item._id ? [styles2.Text, styles2.selectedValue, styles2.theme] : [styles2.Text, styles2.theme]}
+                                <View key={idx}
+                                    style={selectedValue === item._id ? [styles.cardItem, styles2.theme, styles2.selectedValue,] : [styles.cardItem, styles2.theme]}
                                 >
-                                    <Text style={{ flex: 4, ...styles.textChilds, ...styles2.theme }}
+                                    <TouchableOpacity activeOpacity={0.7}
+                                        style={[styles.Text, { flex: 3, borderColor: colorScheme === "dark" ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)" }]}
                                         onPress={() => textClickHandler(item._id, item.name, item.is_Downloaded)}
                                     >
-                                        {item.name}
-                                    </Text>
+                                        <Text style={[{ color: Colors[colorScheme].text }, styles.textChilds]}>{item.name}</Text>
+                                    </TouchableOpacity>
                                     {icon1 || icon2 ? (
-                                        item.is_Downloaded ?
-                                            <Text style={{ flex: 1, ...styles.textChilds }}> {icon1}</Text>
-                                            : <Text style={{ flex: 1, ...styles.textChilds }} onPress={() => downloadPaper(item._id)} > {listItemLoader?.value && (listItemLoader?.id === item._id) ? <ActivityIndicator size={20} /> : icon2}</Text>
+                                        item.is_Downloaded ? (
+                                            <View style={{ flex: 2, flexDirection: "row" }}>
+                                                <View style={{ flex: 1 }}>
+                                                    <Text style={[styles.textChilds, styles.icons]}> {icon1}</Text>
+                                                </View>
+                                                <View style={{ flex: 1 }}>
+                                                    {listItemLoader?.value && (listItemLoader?.id === item._id) ?
+                                                        <Text style={[styles.textChilds, styles.icons]}> <ActivityIndicator size={20} /></Text>
+                                                        : (
+                                                            <Text style={[styles.textChilds, styles.icons]} onPress={() => deletePaper(item._id)}>
+                                                                {deleteIcon}
+                                                            </Text>
+                                                        )
+                                                    }
+                                                </View>
+                                            </View>
+                                        ) : (listItemLoader?.value && (listItemLoader?.id === item._id) ?
+                                            <View style={{ flex: 2 }}>
+                                                <Text style={[styles.textChilds]}> <ActivityIndicator size={20} /></Text>
+                                            </View>
+                                            : (
+                                                <Text style={[{ flex: 2 }, styles.icons]} onPress={() => downloadPaper(item._id)}>
+                                                    {icon2}
+                                                </Text>
+                                            )
+                                        )
                                     ) : null}
-                                </TouchableOpacity>
+                                </View>
                             )
                         }) : null}
                     </View>
@@ -85,14 +103,27 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginHorizontal: 20
     },
+    cardItem: {
+        flexDirection: "row",
+        margin: 1,
+        elevation: 20,
+        borderRadius: 50,
+    },
+    Text: {
+        padding: 20,
+        marginRight: 3,
+        borderRightWidth: 1
+    },
     modalView: {
-        borderRadius: 20,
         paddingVertical: 15,
         alignItems: "center",
     },
     textChilds: {
         alignItems: "center",
         fontSize: FontSize.small,
+    },
+    icons: {
+        alignItems: "center"
     },
     crossIcon: {
         borderRadius: 50,

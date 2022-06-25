@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, ScrollView, View, Text, RefreshControl } from "react-native";
-import { Box, CheckIcon, Select, FormControl, Center, useToast, } from "native-base";
+import { CheckIcon, Select, FormControl, Center, } from "native-base";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors from "../../constants/Colors";
-import { idealTutorApi } from "../../constants/constants";
+import { idealTutorApi, SELECTED_ITEM_STYLE } from "../../constants/constants";
 import useColorScheme from "../../hooks/useColorScheme";
 import CustomButton from "../../components/UI/CustomButton";
 import { FontAwesome, MaterialIcons, Entypo } from '@expo/vector-icons';
 // import PaperListCard from "../../components/PracticeSession/PaperListCard";
 import CustomSelectTag from "../../components/PracticeSession/CustomSelectTag";
 import FullScreenSpinner from "../../components/UI/FullScreenSpinner";
+import CustomToast from "../../components/UI/CustomToast";
+
 
 export default function Practise({ navigation }) {
     const [useEffectCleanUp, setUseEffectCleanUp] = useState(false);
@@ -30,7 +32,7 @@ export default function Practise({ navigation }) {
 
     // const { height, width } = useWindowDimensions();
     const colorScheme = useColorScheme();
-    const toast = useToast();
+    // const toast = useToast();
 
     const styles2 = StyleSheet.create({
         theme: {
@@ -54,16 +56,16 @@ export default function Practise({ navigation }) {
         // }
     });
 
-    const CustomToast = (message, position, color) => {
-        toast.show({
-            render: () => {
-                return <Box bg={color ? color : "#fac2be"} px="2" py="1" rounded="md" mb={50}>
-                    {message}
-                </Box>;
-            },
-            placement: position ? position : "top"
-        });
-    }
+    // const CustomToast = (message, position, color) => {
+    //     toast.show({
+    //         render: () => {
+    //             return <Box bg={color ? color : "#fac2be"} px="2" py="1" rounded="md" mb={50}>
+    //                 {message}
+    //             </Box>;
+    //         },
+    //         placement: position ? position : "top"
+    //     });
+    // }
 
     const onRefresh = () => {
         setRefreshing(true);
@@ -96,6 +98,29 @@ export default function Practise({ navigation }) {
                 setListItemLoader({ value: false, id: id })
                 CustomToast(err.message)
             })
+    }
+
+    const deletePaper = async (id) => {
+        try {
+            setListItemLoader({ value: true, id: id })
+            await AsyncStorage.removeItem("@paper_" + id)
+            let keys = asyncKeys;
+            for (let item of paperList) {
+                if (item._id === id)
+                    item['is_Downloaded'] = false
+            }
+            for (let i = 0; i < keys.length; i++) {
+                if (keys[i] === "@paper_" + id) {
+                    keys.splice(i, 1);
+                    break;
+                }
+            }
+            setAsyncKeys(keys);
+            setListItemLoader({ value: false, id: id })
+        } catch (err) {
+            setListItemLoader({ value: false, id: id })
+            CustomToast(err.message)
+        }
     }
 
     const onPaperSelect = (id, name, isDownloaded) => {
@@ -191,9 +216,7 @@ export default function Practise({ navigation }) {
                             <Select accessibilityLabel="Choose Exam" placeholder="Choose Exam"
                                 style={styles2.theme}
                                 _selectedItem={{
-                                    borderColor: "#079bb8",
-                                    borderRadius: 20,
-                                    borderWidth: 4,
+                                    ...SELECTED_ITEM_STYLE,
                                     endIcon: <CheckIcon size="5" />,
                                 }} mt={1}
                                 onValueChange={itemValue => { setCardOn(!cardOn); setExamType(itemValue); }}
@@ -223,14 +246,16 @@ export default function Practise({ navigation }) {
                                 textClickHandler={onPaperSelect}
                                 icon1={<MaterialIcons name="file-download-done" size={24} color={Colors[colorScheme].text} />}
                                 icon2={<FontAwesome name="cloud-download" size={24} color={Colors[colorScheme].text} />}
+                                deleteIcon={<MaterialIcons name="delete" size={24} color={Colors[colorScheme].text} />}
                                 crossIcon={<Entypo name="cross" size={32} color={Colors[colorScheme].text} />}
                                 downloadPaper={downloadPaper}
+                                deletePaper={deletePaper}
                                 listItemLoader={listItemLoader}
                             />
                         </FormControl>
                     </Center>
                 </View>
-                <CustomButton value="Start practise" btnHandler={startPractise} fontSize={18} />
+                <CustomButton value="Start practise" onPress={startPractise} fontSize={18} />
             </Center>
         </ScrollView >
     )

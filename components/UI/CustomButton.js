@@ -1,7 +1,8 @@
 import React from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text, useColorScheme } from "react-native";
 
-export default function CustomButton({ value, btnHandler, bgcolor, color, padding, fontSize, margin }) {
+export default function CustomButton({ value, iconLeft, iconRight, bgcolor, color, padding, fontSize, margin, customStyle, disabled, ...otherProps }) {
+    // const colorScheme = useColorScheme();
     const styles = StyleSheet.create({
         btn: {
             margin: margin ? margin : 50,
@@ -20,10 +21,13 @@ export default function CustomButton({ value, btnHandler, bgcolor, color, paddin
 
     return (
         <Pressable
-            style={styles.btn}
-            onPress={(e) => btnHandler(e)}
+            style={[styles.btn, customStyle, { flexDirection: "row" }]}
+            {...otherProps}
+            disabled={disabled}
         >
-            <Text style={styles.textStyle}>{value}</Text>
+            {iconLeft ? <Text style={{ flex: 1 }}>{iconLeft}</Text> : null}
+            <Text style={[styles.textStyle, { flex: 3 }]}>{value}</Text>
+            {iconRight ? <Text style={{ flex: 1 }}>{iconRight}</Text> : null}
         </Pressable>
     )
 }

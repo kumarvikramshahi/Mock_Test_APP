@@ -17,11 +17,12 @@ import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../typ
 import LinkingConfiguration from './LinkingConfiguration';
 import Home from '../screens/Home/Home';
 import Practise from '../screens/Practice';
-import Contest from '../screens/Contest/Contest';
+// import Contest from '../screens/Contest/Contest';
 import Profile from '../screens/Profile/Profile';
 import Instructions from '../screens/Practice/Instructions';
 import ExamScreen from '../screens/Practice/ExamScreen';
 import RightScreen from '../screens/Practice/RightScreen';
+import Evaluation from '../screens/Home/Evaluation';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -47,7 +48,7 @@ function RootNavigator() {
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Instructions" component={Instructions} options={{ headerShown: false }} />
         <Stack.Screen name="ExamScreen" component={ExamScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ExamRightScreen" component={RightScreen} options={{ title: 'Question List' }} />
+        <Stack.Screen name="Evaluation" component={Evaluation} options={{ title: 'Its Result Time 😰' }} />
       </Stack.Group>
       {/* <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Wishlist" component={Wishlist} />
@@ -80,13 +81,13 @@ function BottomTabNavigator() {
       icon2: <Entypo name="book" size={34} style={styles.icon} color={Colors[colorScheme].text} />,
       comp: Practise
     },
-    {
-      name: "Contest",
-      title: "Contest",
-      icon1: <MaterialCommunityIcons size={28} style={styles.icon} name="run-fast" color={Colors[colorScheme].text} />,
-      icon2: <MaterialCommunityIcons size={34} style={styles.icon} name="run-fast" color={Colors[colorScheme].text} />,
-      comp: Contest
-    },
+    // {
+    //   name: "Contest",
+    //   title: "Contest",
+    //   icon1: <MaterialCommunityIcons size={28} style={styles.icon} name="run-fast" color={Colors[colorScheme].text} />,
+    //   icon2: <MaterialCommunityIcons size={34} style={styles.icon} name="run-fast" color={Colors[colorScheme].text} />,
+    //   comp: Contest
+    // },
     {
       name: "Profile",
       title: "Profile",

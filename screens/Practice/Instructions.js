@@ -1,6 +1,7 @@
-import { Center, useToast, Box } from "native-base";
+import { Center } from "native-base";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, StatusBar, ScrollView, Text, View } from "react-native";
+import { StyleSheet, StatusBar, ScrollView, } from "react-native";
+// import { WebView } from 'react-native-webview';
 import useColorScheme from "../../hooks/useColorScheme";
 import Colors from "../../constants/Colors";
 import CustomButton from "../../components/UI/CustomButton";
@@ -8,24 +9,26 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import FullScreenSpinner from "../../components/UI/FullScreenSpinner";
 import Checkbox from "../../components/UI/Checkbox";
 import { FontSize } from "../../constants/constants";
+import { DefaultText, DefaultView } from "../../components/UI/Themed";
+import CustomToast from "../../components/UI/CustomToast";
 
 export default function Instructions({ navigation, route }) {
     const [useEffectCleanUp, setUseEffectCleanUp] = useState(false);
     const [loading, setLoader] = useState(false);
-    const [instructions, setInstructions] = useState('');
+    const [instructions, setInstructions] = useState("");
     const [isInstructionsRead, setInstructionsRead] = useState(false);
 
     const { paperId } = route.params;
     const colorScheme = useColorScheme();
-    const toast = useToast();
+    // const toast = useToast();
 
     const styles2 = StyleSheet.create({
-        theme: {
-            color: Colors[colorScheme].text,
-            backgroundColor: Colors[colorScheme].background,
-            fontSize: FontSize.small,
-            shadowColor: Colors[colorScheme].text
-        },
+        // theme: {
+        //     color: Colors[colorScheme].text,
+        //     backgroundColor: Colors[colorScheme].background,
+        //     fontSize: FontSize.small,
+        //     shadowColor: Colors[colorScheme].text
+        // },
         parentView: {
             marginTop: StatusBar.currentHeight + 5,
             flex: 1,
@@ -35,19 +38,23 @@ export default function Instructions({ navigation, route }) {
     });
 
     const start = () => {
-        navigation.navigate('ExamScreen', { paperId: paperId })
+        if (isInstructionsRead)
+            navigation.navigate('ExamScreen', { paperId: paperId });
+        else {
+            CustomToast("Please read instructions carefully :)", "short")
+        }
     }
 
-    const CustomToast = (message, position, color) => {
-        toast.show({
-            render: () => {
-                return <Box bg={color ? color : "#fac2be"} px="2" py="1" rounded="md" mb={50}>
-                    {message}
-                </Box>;
-            },
-            placement: position ? position : "top"
-        });
-    }
+    // const CustomToast = (message, position, color) => {
+    //     toast.show({
+    //         render: () => {
+    //             return <Box bg={color ? color : "#fac2be"} px="2" py="1" rounded="md" mb={50}>
+    //                 {message}
+    //             </Box>;
+    //         },
+    //         placement: position ? position : "top"
+    //     });
+    // }
 
     useEffect(() => {
         const loadPaper = async () => {
@@ -68,18 +75,25 @@ export default function Instructions({ navigation, route }) {
 
     return (
         !loading ? (
-            <>
-                <View style={[styles.card, styles2.parentView, styles2.theme]}>
-                    <Center><Text style={[styles2.theme, styles.header]}>Instructions</Text></Center>
-                    <ScrollView>
-                        <Text style={styles2.theme}>
-                            {instructions}
-                        </Text>
-                        <Checkbox value={isInstructionsRead} onValueChange={setInstructionsRead} message="I have read and understood instructions carefully." />
-                    </ScrollView>
-                    <CustomButton value="Start Now" btnHandler={start} fontSize={FontSize.medium} />
-                </View>
-            </>
+            <DefaultView
+                style={[styles.card, styles2.parentView, { backgroundColor: Colors[colorScheme].background }]}
+            >
+                <Center>
+                    <DefaultText style={styles.header}>Instructions</DefaultText>
+                </Center>
+                <ScrollView>
+                    {/* <WebView
+                            style={styles2.theme}
+                            originWhitelist={['*']}
+                            source={{ html: instructions }}
+                        /> */}
+                    <DefaultText style={{ fontSize: FontSize.small }}>
+                        {instructions}
+                    </DefaultText>
+                    <Checkbox value={isInstructionsRead} onValueChange={setInstructionsRead} message="I have read and understood instructions carefully." />
+                </ScrollView>
+                <CustomButton value="Start Now" onPress={start} fontSize={FontSize.medium} />
+            </DefaultView>
         ) : <FullScreenSpinner />
     )
 }

@@ -5,16 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d01edd1-af9c-4aef-99a4-dffd0245098e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Schemas/PaperList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Crousel/Crousel.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Crousel/Crousel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/EditScreenInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/EditScreenInfo.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/PracticeSession/CustomSelectTag.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/PracticeSession/CustomSelectTag.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/PracticeSession/QuestionCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/PracticeSession/QuestionCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/PracticeSession/Timer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/StyledText.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/StyledText.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Themed.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/UI/Checkbox.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/UI/Checkbox.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/UI/Chips.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/UI/Chips.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/UI/CustomToast.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/UI/FullScreenSpinner.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/UI/FullScreenSpinner.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configs/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/configs/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/navigation/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants/Colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/constants/Colors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/useCachedResources.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/useCachedResources.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/useCustomToast.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redux/action/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/redux/store.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Contest/Contest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Contest/Contest.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Home/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Home/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/ModalScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/ModalScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/NotFoundScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/NotFoundScreen.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/Practice/ExamScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Practice/ExamScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Practice/Instructions.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Practice/Instructions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Practice/RightScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Practice/RightScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/Practice/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Practice/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Profile/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Profile/Profile.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/TabOneScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/TabOneScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/TabTwoScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/TabTwoScreen.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,5 +71,16 @@
       <updated>1649232605316</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

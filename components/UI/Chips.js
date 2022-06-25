@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
-import { DefaultText, DefaultView } from "../Themed";
+import { DefaultText, DefaultView } from "./Themed";
 import useColorScheme from '../../hooks/useColorScheme';
 import Colors from "../../constants/Colors";
 

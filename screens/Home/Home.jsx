@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { DefaultText, DefaultView } from "../../components/Themed";
+import { DefaultText, DefaultView } from "../../components/UI/Themed";
 import Crousel from "../../components/Crousel/Crousel";
 import Colors from "../../constants/Colors";
 import useColorScheme from "../../hooks/useColorScheme";
