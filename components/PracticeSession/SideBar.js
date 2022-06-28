@@ -7,9 +7,9 @@ import Colors from "../../constants/Colors";
 import { FontSize } from "../../constants/constants";
 
 export default function SideBar({ setQuestionIndex, questionIndex, answers, questionListLen, sideBarOn, setSideBarOn }) {
-    const [attempted, setAttempted] = useState(false); // option selected = green
-    const [marked, setMarked] = useState(false); // yellow & current que = blue
-    const [markedAndDone, setMarkedAndDone] = useState(false); // purple
+    // const [attempted, setAttempted] = useState(false); // option selected = green
+    // const [marked, setMarked] = useState(false); // yellow & current que = blue
+    // const [markedAndDone, setMarkedAndDone] = useState(false); // purple
     const [dummyQuesArr, setDummyQuesArr] = useState([]); // for question Number List
     const [bubbleStyle, setBubbleStyle] = useState(null);
 
@@ -30,18 +30,18 @@ export default function SideBar({ setQuestionIndex, questionIndex, answers, ques
 
     useEffect(() => {
         if (answers[questionIndex]) {
-            console.log("in effect")
-            if (answers[questionIndex].optionValue && marked)
+            // console.log(answers[questionIndex].optionValue && answers[questionIndex].marked, "inef")
+            if (answers[questionIndex].optionValue && answers[questionIndex].marked)
                 setBubbleStyle(styles.markedAndDone)
-            if (answers[questionIndex].optionValue && !marked)
+            else if (answers[questionIndex].optionValue && !answers[questionIndex].marked)
                 setBubbleStyle(styles.attempted)
-            if ((answers[questionIndex].optionValue == null) && marked)
+            else if ((answers[questionIndex].optionValue == null) && answers[questionIndex].marked)
                 setBubbleStyle(styles.marked)
             else setBubbleStyle(styles2.theme)
         } else {
             setBubbleStyle(styles2.theme)
         }
-    }, [answers[questionIndex]])
+    }, [answers[questionIndex], answers[questionIndex] ? answers[questionIndex].marked : false])
 
     useEffect(() => {
         if (questionListLen) {
@@ -73,7 +73,7 @@ export default function SideBar({ setQuestionIndex, questionIndex, answers, ques
                             {dummyQuesArr?.map((item, idx) => {
                                 return (
                                     <TouchableOpacity
-                                        style={[styles.bubble, bubbleStyle]}
+                                        style={[styles.bubble, questionIndex === idx ? bubbleStyle : styles2.theme]}
                                         key={idx} onPress={() => onQuestionClick(idx)}>
                                         <DefaultText style={styles.text}>
                                             {idx + 1}

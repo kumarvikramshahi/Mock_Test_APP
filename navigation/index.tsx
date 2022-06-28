@@ -21,7 +21,6 @@ import Practise from '../screens/Practice';
 import Profile from '../screens/Profile/Profile';
 import Instructions from '../screens/Practice/Instructions';
 import ExamScreen from '../screens/Practice/ExamScreen';
-import RightScreen from '../screens/Practice/RightScreen';
 import Evaluation from '../screens/Home/Evaluation';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {

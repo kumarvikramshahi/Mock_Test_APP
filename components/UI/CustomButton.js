@@ -1,7 +1,7 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, useColorScheme } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 
-export default function CustomButton({ value, iconLeft, iconRight, bgcolor, color, padding, fontSize, margin, customStyle, disabled, ...otherProps }) {
+export default function CustomButton({ value, iconLeft, iconRight, bgcolor, color, padding, fontSize, margin, fontWeight, customStyle, disabled, ...otherProps }) {
     // const colorScheme = useColorScheme();
     const styles = StyleSheet.create({
         btn: {
@@ -13,7 +13,7 @@ export default function CustomButton({ value, iconLeft, iconRight, bgcolor, colo
         },
         textStyle: {
             color: color ? color : "black",
-            fontWeight: "bold",
+            fontWeight: fontWeight ? fontWeight : "bold",
             ...(fontSize && { fontSize: fontSize }),
             textAlign: "center"
         }

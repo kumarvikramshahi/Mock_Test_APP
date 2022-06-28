@@ -5,10 +5,9 @@ import { DefaultText, DefaultView } from "../UI/Themed";
 import Colors from "../../constants/Colors";
 import useColorScheme from "../../hooks/useColorScheme";
 import CustomButton from "../UI/CustomButton";
-import ErrorReport from "../ErrorReport";
 import CustomToast from "../UI/CustomToast";
 
-export default function QuestionsCard({ question, selectedOptionIdx, setSelectedOptionIdx, setSelectedOptionVal, questionIndex, onOptionSelect, reportList, onClear }) {
+export default function QuestionsCard({ question, selectedOptionIdx, setSelectedOptionIdx, setSelectedOptionVal, questionIndex, onOptionSelect, reportList, onClear, onMarkBtnClick }) {
     // const [reportList, setReportList] = useState(new Set());
     // const [reportModalOn, setReportModalOn] = useState(false);
 
@@ -58,8 +57,17 @@ export default function QuestionsCard({ question, selectedOptionIdx, setSelected
                         margin={1}
                         onPress={() => onClear()}
                     />
+                    {/* Mark btn */}
+                    <CustomButton value={"Mark"}
+                        customStyle={[styles.clearBtn, { flex: 1, marginHorizontal: 40 }]}
+                        bgcolor={"rgba(191, 6, 98,1)"}
+                        color="rgba(255,255,255,0.9)"
+                        padding={8}
+                        margin={1}
+                        onPress={() => onMarkBtnClick()}
+                    />
                     <CustomButton value={"Report"}
-                        customStyle={[styles.clearBtn, { flex: 1, marginLeft: 140 }]}
+                        customStyle={[styles.clearBtn, { flex: 1 }]}
                         bgcolor={"rgba(191, 6, 98,1)"}
                         color="rgba(255,255,255,0.9)"
                         padding={8}
@@ -103,5 +111,17 @@ const styles = StyleSheet.create({
         marginTop: 30,
         marginBottom: 10,
         elevation: 0,
+    },
+    markBtn: {
+        width: 40,
+        height: 40,
+        borderRadius: 50,
+        backgroundColor: "#4169E1"
+    },
+    markBtnText: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        fontWeight: "bold"
     }
 });

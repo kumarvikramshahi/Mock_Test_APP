@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Select, CheckIcon } from "native-base";
-import { StyleSheet, StatusBar, BackHandler, Alert, Vibration, Platform, View, Text, ScrollView } from "react-native";
+import { StyleSheet, StatusBar, BackHandler, Alert, Vibration, Platform, View, Text, ScrollView, Pressable } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomButton from "../../components/UI/CustomButton";
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
@@ -35,8 +35,10 @@ export default function ExamScreen({ navigation, route }) {
     const [selectedOptionIdx, setSelectedOptionIdx] = useState(null);
     const [selectedOptionVal, setSelectedOptionVal] = useState(null); // don't remove otherwise sidebar's functionalty will break
     const [sideBarOn, setSideBarOn] = useState(false);
+    // const [marked, setMarked] = useState(false); // yellow & current que = blue
 
-    var reportList = new Set();
+    var marked = false; // for marking questions
+    const reportList = new Set();
     const { paperId } = route.params;
     const colorScheme = useColorScheme();
 
@@ -58,15 +60,16 @@ export default function ExamScreen({ navigation, route }) {
         setSelectedOptionIdx(optionIdx);
         setSelectedOptionVal(optionValue);
         let ansArr = answers;
+        // console.log(marked, "in osl")
         ansArr[questionIndex] = {
             qIndex: questionIndex,
             qId: qId,
             optionIndex: optionIdx,
             optionValue: optionValue,
             subject: subject,
-            marked: false
-        };
-
+            marked: ansArr[questionIndex] ? ansArr[questionIndex].marked : false
+        }
+        // console.log(ansArr[questionIndex])
         setAnswers(ansArr);
     }
 
@@ -82,13 +85,16 @@ export default function ExamScreen({ navigation, route }) {
         }
     }
 
-    // const onNextClick = () => {
-
-    // }
-
-    // const onBackClick = () => {
-
-    // }
+    const onMarkBtnClick = () => {
+        let ansArr = answers;
+        if (ansArr[questionIndex]) {
+            if (ansArr[questionIndex].marked)
+                ansArr[questionIndex]["marked"] = !(ansArr[questionIndex].marked)
+            else ansArr[questionIndex]["marked"] = true;
+        } else ansArr[questionIndex] = { marked: false };
+        setAnswers(ansArr);
+        CustomToast("Marked!", "short")
+    }
 
     const onSubmit = () => {
         setStartTimer(false)
@@ -187,7 +193,8 @@ export default function ExamScreen({ navigation, route }) {
                             paramsObj={{
                                 answers: answers,
                                 paperId: paperId,
-                                reportList: reportList
+                                reportList: reportList,
+                                questions: questions
                             }}
                             passedNavigation={navigation}
                         />
@@ -248,6 +255,7 @@ export default function ExamScreen({ navigation, route }) {
                         setSelectedOptionVal={setSelectedOptionVal}
                         reportList={reportList}
                         onClear={onClear}
+                        onMarkBtnClick={onMarkBtnClick}
                     />
                 </View>
                 <View style={styles.btnGroup}>
