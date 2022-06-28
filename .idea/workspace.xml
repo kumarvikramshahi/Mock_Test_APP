@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d01edd1-af9c-4aef-99a4-dffd0245098e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/PracticeSession/QuestionCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/PracticeSession/QuestionCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/PracticeSession/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/PracticeSession/SideBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/UI/CustomButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/UI/CustomButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/configs/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+    <list default="true" id="c522f8b7-d7d9-4525-b2a8-00eb5f377dde" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/Home/Evaluation.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Home/Evaluation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/Home/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Home/Home.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/Practice/ExamScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Practice/ExamScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,34 +17,27 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="27PrXrXUPzdWCLyRPdMTiohkOou" />
+  <component name="ProjectId" id="2BDotvloBtwWgPDhIjZamNx02kh" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_MARK_IGNORED_FILES_AS_EXCLUDED" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
-    <property name="TODO_SCOPE" value="All Places" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.updates" />
   </component>
-  <component name="RunAnythingCache">
-    <option name="myCommands">
-      <command value="expo start" />
-    </option>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="7d01edd1-af9c-4aef-99a4-dffd0245098e" name="Default Changelist" comment="" />
-      <created>1649232605316</created>
+      <changelist id="c522f8b7-d7d9-4525-b2a8-00eb5f377dde" name="Default Changelist" comment="" />
+      <created>1656450235621</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1649232605316</updated>
+      <updated>1656450235621</updated>
     </task>
     <servers />
   </component>
@@ -66,6 +51,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
