@@ -68,7 +68,7 @@ function BottomTabNavigator() {
   const bottomTabItem = [
     {
       name: "Home",
-      title: "BPL",
+      title: "Baba Group",
       icon1: <MaterialCommunityIcons size={28} style={styles.icon} name="home-outline" color={Colors[colorScheme].text} />,
       icon2: <MaterialCommunityIcons size={34} style={styles.icon} name="home-outline" color={Colors[colorScheme].text} />,
       comp: Home

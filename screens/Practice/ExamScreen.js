@@ -126,21 +126,9 @@ export default function ExamScreen({ navigation, route }) {
                 // setMaxMarks(parsedPaper.max_marks); setYear(parsedPaper.year);
                 // setIsPreviousYear(parsedPaper.is_previous_year);
 
-                var arrangedQuestionlist = [];
-                var arrangedSubjectlist = [];
-                let subjectListLen = parsedPaper.subjects?.length;
-                let questionListLen = parsedPaper.questions?.length;
-                let questionList = parsedPaper.questions;
-                let subjectList = parsedPaper.subjects;
-                for (let i = 0; i < subjectListLen; i++) {
-                    arrangedSubjectlist.push({ firstIdx: i, subject: subjectList[i] });
-                    for (let j = 0; j < questionListLen; j++) {
-                        if (questionList[j].subject === subjectList[i])
-                            arrangedQuestionlist.push(questionList[j]);
-                    }
-                }
-                setSubjectList(arrangedSubjectlist);
-                setQuestions(arrangedQuestionlist);
+                setSubject(parsedPaper.questions[0].subject)
+                setSubjectList(parsedPaper.subjects);
+                setQuestions(parsedPaper.questions);
                 setLoader(false)
                 setStartTimer(true)
             } catch (e) {
@@ -207,12 +195,13 @@ export default function ExamScreen({ navigation, route }) {
                 }]}>
                     <View style={styles.selectTag}>
                         <Select selectedValue={subject} minWidth="100" accessibilityLabel="Subject" placeholder="Subjects..." style={styles2.theme}
+                            defaultValue={subject}
                             _selectedItem={{
                                 ...SELECTED_ITEM_STYLE,
                                 endIcon: <CheckIcon size="5" />
                             }} mt={1}
                         >
-                            {subjectList?.map((item, idx) => <Select.Item key={idx} label={item.subject.toUpperCase()} value={item.subject.toLowerCase()} onPress={() => { setQuestionIndex(item.firstIdx); setSubject(item.subject) }} />)}
+                            {subjectList?.map((item, idx) => <Select.Item key={idx} label={item?.subject?.toUpperCase()} value={item.subject.toLowerCase()} onPress={() => { setQuestionIndex(item.firstIdx); setSubject(item.subject) }} />)}
                         </Select>
                     </View>
                     <View style={styles.selectTag}>

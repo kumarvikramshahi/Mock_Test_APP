@@ -86,6 +86,29 @@ export default function Practise({ navigation }) {
                             if (item._id === jsonData.data._id)
                                 item['is_Downloaded'] = true
                         }
+
+                        var arrangedQuestionlist = [];
+                        var arrangedSubjectlist = [];
+                        let subjectListLen = jsonData.data.subjects?.length;
+                        let questionListLen = jsonData.data.questions?.length;
+                        let questionList = jsonData.data.questions;
+                        let subjectList = jsonData.data.subjects;
+                        for (let i = 0; i < subjectListLen; i++) {
+                            for (let j = 0; j < questionListLen; j++) {
+                                if (questionList[j].subject === subjectList[i]) {
+                                    arrangedQuestionlist.push(questionList[j]);
+                                    if (!arrangedSubjectlist[i]) {
+                                        arrangedSubjectlist.push({
+                                            firstIdx: arrangedQuestionlist.length - 1,
+                                            subject: subjectList[i]
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                        jsonData.data.questions = arrangedQuestionlist;
+                        jsonData.data.subjects = arrangedSubjectlist;
+
                         setAsyncKeys([...asyncKeys, `@paper_${jsonData.data._id}`])
                         await AsyncStorage.setItem(`@paper_${jsonData.data._id}`, JSON.stringify(jsonData.data))
                     } catch (err) {

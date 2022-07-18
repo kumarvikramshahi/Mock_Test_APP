@@ -5,6 +5,7 @@ import Crousel from "../../components/Crousel/Crousel";
 import Colors from "../../constants/Colors";
 import useColorScheme from "../../hooks/useColorScheme";
 import PractiseLineChart from "../../components/Charts/Practise/LineChart";
+import { FontSize } from "../../constants/constants";
 
 export default function Home() {
     const colorScheme = useColorScheme();
@@ -13,11 +14,12 @@ export default function Home() {
         <ScrollView>
             <Crousel imgUri={imgArry} />
             <View style={styles.practiseCard}>
+                <DefaultText style={{fontSize:FontSize.medium}}>Practise Stat </DefaultText>
                 <PractiseLineChart inputData={practData} />
             </View>
-            <View style={styles.practiseCard}>
+            {/* <View style={styles.practiseCard}>
                 <PractiseLineChart inputData={compData} />
-            </View>
+            </View> */}
         </ScrollView>
     )
 }
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
         width: "100%",
         marginLeft: 10,
         marginRight: 10,
-        marginTop: 10,
+        marginTop: 24,
         elevation: 10
     }
 });

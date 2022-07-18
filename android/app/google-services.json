@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "680841813917",
+    "project_id": "mock-test-app-a9a40",
+    "storage_bucket": "mock-test-app-a9a40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680841813917:android:ce76a3984cc7c47f369974",
+        "android_client_info": {
+          "package_name": "com.vikram.mock_test_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680841813917-cdejferhu14nvc71mnj42cs253jno7tk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vikram.mock_test_app",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "680841813917-ooj032kn004ltpfu6k5oddlcc3et63oh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCX_uq5Hf5aqvJfWAOv5N95x0awTRn57w4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680841813917-ooj032kn004ltpfu6k5oddlcc3et63oh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

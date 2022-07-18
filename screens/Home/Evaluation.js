@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Text, useColorScheme, View, StyleSheet } from "react-native";
+import { Text, useColorScheme, View, StyleSheet, TouchableOpacity } from "react-native";
 import { DefaultView, DefaultText } from "../../components/UI/Themed";
 import { AntDesign } from '@expo/vector-icons';
 import Colors from "../../constants/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { VictoryPie, VictoryTheme } from "victory-native";
+// import { VictoryPie, VictoryTheme } from "victory-native";
 import CustomToast from "../../components/UI/CustomToast";
 import { ScrollView } from "native-base";
 import FullScreenSpinner from "../../components/UI/FullScreenSpinner";
 import { FontSize } from "../../constants/constants";
+import { Progress } from "native-base";
 
 export default function Evaluation({ navigation, route }) {
     const [useEffectCleanUp, setUseEffectCleanUp] = useState(false);
@@ -24,55 +25,60 @@ export default function Evaluation({ navigation, route }) {
     const [totalMarkes, setTotalMarkes] = useState(0);
     const [wrongQues, setWrongQues] = useState(0);
     const [correctQues, setCorrectQues] = useState(0);
-    const [pieData, setPieData] = useState(null);
+    const [subWiseCorrectAnsData, setSubWiseCorrectAnsData] = useState([]);
+    const [finalAnswer, setFinalAnswer] = useState([])
+    // const [refreshing, setRefreshing] = useState(false); // remove when done making this page
 
-    const { paramsObj } = route.params;
+    const dummy = 198
+    const parsedParams = route.params ? JSON.parse(route.params.paramsObj) : false;
     const colorScheme = useColorScheme();
+    // const onRefresh = () => {
+    //     setAttemptedQues(null); setCorrectQues(null);
+    // }
+
+    const onBubbleClick = (idx) => {
+
+    }
 
     useEffect(() => {
         const loadPaper = async () => {
             try {
-                if (paramsObj.paperId) {
+                if (parsedParams.paperId) {
                     setLoader(true)
 
                     // Load and arrange ques
-                    const paper = await AsyncStorage.getItem(paramsObj?.paperId);
+                    const paper = await AsyncStorage.getItem(parsedParams?.paperId);
                     const parsedPaper = await JSON.parse(paper);
-                    setName(parsedPaper.name); setTimeLimit(parsedPaper.time_Limit);
+                    setName(parsedPaper.name); setSubjectList(parsedPaper.subjects);
+                    setQuestions(parsedPaper.questions); setFinalAnswer(parsedParams.answers);
+
                     // setMaxMarks(parsedPaper.max_marks); setYear(parsedPaper.year);
                     // setIsPreviousYear(parsedPaper.is_previous_year);
 
-                    var arrangedQuestionlist = [];
-                    var arrangedSubjectlist = [];
-                    let subjectListLen = parsedPaper.subjects?.length;
-                    let questionListLen = parsedPaper.questions?.length;
-                    let questionList = parsedPaper.questions;
-                    let subjectList = parsedPaper.subjects;
-                    for (let i = 0; i < subjectListLen; i++) {
-                        arrangedSubjectlist.push({ firstIdx: i, subject: subjectList[i] });
-                        for (let j = 0; j < questionListLen; j++) {
-                            if (questionList[j].subject === subjectList[i])
-                                arrangedQuestionlist.push(questionList[j]);
-                        }
-                    }
-                    setSubjectList(arrangedSubjectlist);
-                    setQuestions(arrangedQuestionlist);
-
                     // match answers
-                    var answers = paramsObj.answers;
+                    let questionListLen = parsedPaper.questions?.length;
+                    var answers = parsedParams.answers;
                     var attemptedQuesCount = 0, markedQuesCount = 0, correctQuesCount = 0, wrongQuesCount = 0;
                     var totalMarkesCount = 0;
+                    var correctAnsData = parsedPaper.subjects;
+                    for (let item of correctAnsData) item["correctAns"] = 0
                     for (let i = 0; i < questionListLen; i++) {
                         if (answers[i]) {
                             if (answers[i].qId) attemptedQuesCount++;
-                            if (answers[i].optionIndex + 1 === arrangedQuestionlist[i].answer) {
+                            if (answers[i].optionIndex + 1 === parsedPaper.questions[i].answer) {
+                                for (let j = 0; j < parsedPaper.subjects.length; j++) {
+                                    if (correctAnsData[j]?.subject === answers[i].subject)
+                                        (correctAnsData[j].correctAns) += 1;
+                                }
                                 correctQuesCount++;
-                                totalMarkesCount += arrangedQuestionlist[i].max_marks;
+                                totalMarkesCount += parsedPaper.questions[i].max_marks;
                             }
                             else wrongQuesCount++;
                             if (answers[i].marked) markedQuesCount++;
                         }
                     }
+
+                    setSubWiseCorrectAnsData(correctAnsData);
                     setAttemptedQues(attemptedQuesCount);
                     setMarkedQues(markedQuesCount); setTotalMarkes(totalMarkesCount);
                     setCorrectQues(correctQuesCount); setWrongQues(wrongQuesCount);
@@ -86,7 +92,7 @@ export default function Evaluation({ navigation, route }) {
         loadPaper();
 
         return () => setUseEffectCleanUp({})
-    }, [paramsObj.paperId])
+    }, [parsedParams.paperId, dummy])
 
     return (
         <ScrollView>
@@ -104,37 +110,97 @@ export default function Evaluation({ navigation, route }) {
                 {/* Results overview */}
                 <View style={{ alignItems: "center" }}>
                     <DefaultView style={[styles.chartBox, { shadowColor: Colors[colorScheme].text }]}>
-                        <VictoryPie
-                            theme={VictoryTheme.material}
-                            radius={100}
-                            style={{
-                                labels: {
-                                    padding: 11, fontSize: FontSize.small,
-                                    fill: Colors[colorScheme].text
-                                }
-                            }}
-                            data={[
-                                { x: "maths", y: 3, },
-                                { x: "hindi", y: 4, },
-                                { x: 3, y: 2, },
-                                { x: 4, y: 2, },
-                            ]}
-                        />
-                        <View>
-                            <DefaultText>
-                                Total no. of Questions : {questions.length}
-                            </DefaultText>
+                        <View style={{ marginTop: 15, width: "90%" }}>
+                            {
+                                subWiseCorrectAnsData ?
+                                    subWiseCorrectAnsData?.map((item, idx) =>
+                                        <View key={idx} style={styles.ProgressBar}>
+                                            <DefaultText>
+                                                {item.subject.toUpperCase()}{" "}
+                                                ({item.correctAns} / {idx + 1 === subWiseCorrectAnsData.length ? -(subWiseCorrectAnsData.length - item.firstIdx) : subWiseCorrectAnsData[idx + 1].firstIdx - item.firstIdx})
+                                            </DefaultText>
+                                            <Progress size="2xl" colorScheme="primary"
+                                                max={idx + 1 === subWiseCorrectAnsData.length ? subWiseCorrectAnsData.length - item.firstIdx : subWiseCorrectAnsData[idx + 1].firstIdx - item.firstIdx}
+                                                value={item.correctAns}
+                                            />
+                                        </View>
+                                    )
+                                    : null
+                            }
                         </View>
-                        <View>
-                            <DefaultText>
-                                Total no. of Questions : {questions.length}
-                            </DefaultText>
+                        <View style={styles.detailedView}>
+                            <View style={{ flex: 1 }}>
+                                <View>
+                                    <DefaultText>
+                                        Total no. of Questions : {questions.length}
+                                    </DefaultText>
+                                </View>
+                                <View>
+                                    <DefaultText>
+                                        Attempted Questions : {attemptedQues}
+                                    </DefaultText>
+                                </View>
+                                <View>
+                                    <DefaultText>
+                                        Marked Questions : {markedQues}
+                                    </DefaultText>
+                                </View>
+                            </View>
+                            <View style={{ flex: 1 }}>
+                                <View>
+                                    <DefaultText>
+                                        Total Marks : {totalMarkes}
+                                    </DefaultText>
+                                </View>
+                                <View>
+                                    <DefaultText>
+                                        Correct Questions : {correctQues}
+                                    </DefaultText>
+                                </View>
+                                <View>
+                                    <DefaultText>
+                                        Wrong Questions : {wrongQues}
+                                    </DefaultText>
+                                </View>
+                            </View>
                         </View>
-
                     </DefaultView>
                 </View>
-            </DefaultView>
-        </ScrollView>
+
+                {/* Results in Detail */}
+                <View style={{ alignItems: "center", marginBottom: 10 }}>
+                    <DefaultView
+                        style={[styles.chartBox, { shadowColor: Colors[colorScheme].text }]}>
+                        <View style={{ flexDirection: "row", margin: 8 }}>
+                            <View style={{ flex: 1, flexDirection: "row" }}>
+                                <View style={styles.correctSquare}></View>
+                                <View><Text>Right</Text></View>
+                            </View>
+                            <View style={{ flex: 1, flexDirection: "row" }}>
+                                <View style={styles.wrongSquare}></View>
+                                <View><Text>Wrong</Text></View>
+                            </View>
+                        </View>
+                        <View style={styles.detailedResult}>
+                            {questions?.length && finalAnswer?.length ?
+                                questions.map((item, idx) =>
+                                    <TouchableOpacity style={[styles.qBubble,
+                                    { backgroundColor: item.answer === finalAnswer[idx].optionIndex + 1 ? "rgba(0,255,0,0.5)" : "rgba(255,0,0,0.5)" }]}
+                                        key={idx} onPress={e => onBubbleClick(idx)}
+                                    >
+                                        <Text style={{ fontWeight: "bold", fontSize: FontSize.small }}>
+                                            {idx + 1}
+                                        </Text>
+                                    </TouchableOpacity>
+                                )
+                                : null
+                            }
+                        </View>
+                    </DefaultView>
+                </View>
+
+            </DefaultView >
+        </ScrollView >
     )
 }
 
@@ -150,10 +216,43 @@ const styles = StyleSheet.create({
     },
     chartBox: {
         width: "90%",
-        padding: 8,
+        paddingBottom: 15,
+        paddingHorizontal: 15,
         borderRadius: 20,
         elevation: 10,
         alignItems: "center",
         marginTop: 30,
+    },
+    ProgressBar: {
+        marginVertical: 8
+    },
+    detailedView: {
+        paddingHorizontal: 9,
+        paddingVertical: 13,
+        flexDirection: "row",
+    },
+    detailedResult: {
+        flexDirection: "row",
+        flexWrap: "wrap"
+    },
+    qBubble: {
+        minWidth: 50,
+        minHeight: 50,
+        borderRadius: 50,
+        margin: 10,
+        flex: 1,
+        elevation: 10,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    correctSquare: {
+        backgroundColor: "rgba(0,255,0,0.5)",
+        height: 10,
+        width: 10
+    },
+    wrongSquare: {
+        backgroundColor: "rgba(255,0,0,0.5)",
+        height: 10,
+        width: 10
     }
 })

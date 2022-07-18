@@ -1,4 +1,4 @@
-package com.awesomeproject;
+package com.vikram.mock_test_app;
 
 import android.app.Application;
 import android.content.Context;
