@@ -4,8 +4,11 @@ import { NativeBaseProvider } from 'native-base';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
+import Auth from './screens/Auth';
+import { useState } from 'react';
 
 export default function App() {
+  const [isLoggedIn, setLoggedIn] = useState(true);
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
@@ -15,7 +18,9 @@ export default function App() {
     return (
       <NativeBaseProvider>
         <SafeAreaProvider>
-          <Navigation colorScheme={colorScheme} />
+          {
+            !isLoggedIn ? <Auth setLoggedIn={setLoggedIn} /> : <Navigation colorScheme={colorScheme} />
+          }
           <StatusBar />
         </SafeAreaProvider>
       </NativeBaseProvider>

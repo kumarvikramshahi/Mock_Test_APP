@@ -339,6 +339,7 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+    apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
 }
 
 if (isNewArchitectureEnabled()) {
