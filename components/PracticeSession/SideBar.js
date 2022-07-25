@@ -46,7 +46,7 @@ export default function SideBar({ setQuestionIndex, questionIndex, answers, ques
     useEffect(() => {
         if (questionListLen) {
             var dummyArr = [];
-            for (let i = 0; i < 60; i++) {
+            for (let i = 0; i < questionListLen; i++) {
                 dummyArr.push(i)
             }
             setDummyQuesArr(dummyArr);

@@ -30,7 +30,7 @@ export default function QuestionsCard({ question, selectedOptionIdx, setSelected
 
                 {
                     question?.options?.map((item, idx) =>
-                        <TouchableOpacity activeOpacity={0.7} onPress={() => onOptionSelect(idx, item, question._id, question.subject)} key={idx}
+                        <TouchableOpacity activeOpacity={0.7} onPress={() => onOptionSelect ? onOptionSelect(idx, item, question._id, question.subject) : null} key={idx}
                             style={{
                                 borderColor: colorScheme === "dark" ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
                                 ...styles.option,
@@ -49,31 +49,37 @@ export default function QuestionsCard({ question, selectedOptionIdx, setSelected
 
                 {/* Clear & Report Button */}
                 <View style={{ flexDirection: "row" }}>
-                    <CustomButton value={"clear"}
-                        customStyle={[styles.clearBtn, { flex: 1, }]}
-                        bgcolor="rgba(191, 6, 98,1)"
-                        color="rgba(255,255,255,0.9)"
-                        padding={8}
-                        margin={1}
-                        onPress={() => onClear()}
-                    />
+                    {onClear && (
+                        <CustomButton value={"clear"}
+                            customStyle={[styles.clearBtn, { flex: 1, }]}
+                            bgcolor="rgba(191, 6, 98,1)"
+                            color="rgba(255,255,255,0.9)"
+                            padding={8}
+                            margin={1}
+                            onPress={() => onClear()}
+                        />
+                    )}
                     {/* Mark btn */}
-                    <CustomButton value={"Mark"}
-                        customStyle={[styles.clearBtn, { flex: 1, marginHorizontal: 40 }]}
-                        bgcolor={"rgba(191, 6, 98,1)"}
-                        color="rgba(255,255,255,0.9)"
-                        padding={8}
-                        margin={1}
-                        onPress={() => onMarkBtnClick()}
-                    />
-                    <CustomButton value={"Report"}
-                        customStyle={[styles.clearBtn, { flex: 1 }]}
-                        bgcolor={"rgba(191, 6, 98,1)"}
-                        color="rgba(255,255,255,0.9)"
-                        padding={8}
-                        margin={1}
-                        onPress={() => onReport(question._id)}
-                    />
+                    {onMarkBtnClick && (
+                        <CustomButton value={"Mark"}
+                            customStyle={[styles.clearBtn, { flex: 1, marginHorizontal: 40 }]}
+                            bgcolor={"rgba(191, 6, 98,1)"}
+                            color="rgba(255,255,255,0.9)"
+                            padding={8}
+                            margin={1}
+                            onPress={() => onMarkBtnClick()}
+                        />
+                    )}
+                    {onMarkBtnClick && (
+                        <CustomButton value={"Report"}
+                            customStyle={[styles.clearBtn, { flex: 1 }]}
+                            bgcolor={"rgba(191, 6, 98,1)"}
+                            color="rgba(255,255,255,0.9)"
+                            padding={8}
+                            margin={1}
+                            onPress={() => onReport(question._id)}
+                        />
+                    )}
                 </View>
             </ScrollView>
         </DefaultView >

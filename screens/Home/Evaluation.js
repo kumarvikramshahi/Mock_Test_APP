@@ -10,6 +10,7 @@ import { ScrollView } from "native-base";
 import FullScreenSpinner from "../../components/UI/FullScreenSpinner";
 import { FontSize } from "../../constants/constants";
 import { Progress } from "native-base";
+import QuestionsCard from "../../components/PracticeSession/QuestionCard";
 
 export default function Evaluation({ navigation, route }) {
     const [useEffectCleanUp, setUseEffectCleanUp] = useState(false);
@@ -27,6 +28,7 @@ export default function Evaluation({ navigation, route }) {
     const [correctQues, setCorrectQues] = useState(0);
     const [subWiseCorrectAnsData, setSubWiseCorrectAnsData] = useState([]);
     const [finalAnswer, setFinalAnswer] = useState([])
+    const [questionsIdx, setQuestionIdx] = useState(0);
     // const [refreshing, setRefreshing] = useState(false); // remove when done making this page
 
     const dummy = 198
@@ -168,7 +170,7 @@ export default function Evaluation({ navigation, route }) {
                 </View>
 
                 {/* Results in Detail */}
-                <View style={{ alignItems: "center", marginBottom: 10 }}>
+                <View style={{ alignItems: "center" }}>
                     <DefaultView
                         style={[styles.chartBox, { shadowColor: Colors[colorScheme].text }]}>
                         <View style={{ flexDirection: "row", margin: 8 }}>
@@ -185,8 +187,8 @@ export default function Evaluation({ navigation, route }) {
                             {questions?.length && finalAnswer?.length ?
                                 questions.map((item, idx) =>
                                     <TouchableOpacity style={[styles.qBubble,
-                                    { backgroundColor: item.answer === finalAnswer[idx].optionIndex + 1 ? "rgba(0,255,0,0.5)" : "rgba(255,0,0,0.5)" }]}
-                                        key={idx} onPress={e => onBubbleClick(idx)}
+                                    { backgroundColor: item.answer === finalAnswer[idx]?.optionIndex + 1 ? "rgba(0,255,0,0.5)" : "rgba(255,0,0,0.5)" }]}
+                                        key={idx} onPress={e => setQuestionIdx(idx)}
                                     >
                                         <Text style={{ fontWeight: "bold", fontSize: FontSize.small }}>
                                             {idx + 1}
@@ -196,6 +198,12 @@ export default function Evaluation({ navigation, route }) {
                                 : null
                             }
                         </View>
+                    </DefaultView>
+                </View>
+                <View style={{ alignItems: "center" }}>
+                    <DefaultView style={styles.chartBox}>
+                        <QuestionsCard question={questions[questionsIdx]} questionIndex={questionsIdx} />
+                        {/* write here code for correct option display */}
                     </DefaultView>
                 </View>
 
@@ -217,7 +225,7 @@ const styles = StyleSheet.create({
     chartBox: {
         width: "90%",
         paddingBottom: 15,
-        paddingHorizontal: 15,
+        paddingHorizontal: 10,
         borderRadius: 20,
         elevation: 10,
         alignItems: "center",
@@ -254,5 +262,13 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(255,0,0,0.5)",
         height: 10,
         width: 10
-    }
+    },
+    // questionCard: {
+    //     elevation: 10,
+    //     borderRadius: 20,
+    //     width: "90%",
+    //     paddingHorizontal: 9,
+    //     paddingVertical: 13,
+    //     marginVertical: 10
+    // }
 })

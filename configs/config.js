@@ -2,7 +2,7 @@
 
 const dev = {
     apis: {
-        idealTutor: `http://192.168.1.12:8080`,
+        idealTutor: `http://192.168.1.15:8080`,
     }
 };
 
