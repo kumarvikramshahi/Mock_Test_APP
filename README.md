@@ -1,6 +1,9 @@
 # Mock Test APP
 It's an exam system or say quizz app made to be operable on Android phones. Here users can practise for different types of exams even without internet connections.
 
+<img src="./assets/Exam_screen.png" width="50%" height="auto" />
+<img src="./assets/Result.png" width="50%" height="auto" />
+
 ## This project will solve problems of :-
 * students living in low internet connectivity area.
 * students, who don't have big screens to practise computer based exams, can practise it on their phone itself.
@@ -31,22 +34,10 @@ cd Mock_Test_APP
 yarn
 ```
 * Start server
-for normal server start
-```bash
-expo start
-```
 
-for android
 ```bash
-expo run:android
-```
-
-for ios
-```bash
-expo run:ios
-```
-
-for web
-```bash
-expo start --web
+expo start # for normal server start
+expo run:android # for android
+expo run:ios # for ios
+expo start --web  # for web
 ```
