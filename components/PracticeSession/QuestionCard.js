@@ -7,7 +7,17 @@ import useColorScheme from "../../hooks/useColorScheme";
 import CustomButton from "../UI/CustomButton";
 import CustomToast from "../UI/CustomToast";
 
-export default function QuestionsCard({ question, selectedOptionIdx, setSelectedOptionIdx, setSelectedOptionVal, questionIndex, onOptionSelect, reportList, onClear, onMarkBtnClick }) {
+export default function QuestionsCard({
+    question,
+    selectedOptionIdx,
+    setSelectedOptionIdx,
+    setSelectedOptionVal,
+    questionIndex,
+    onOptionSelect,
+    reportList,
+    onClear,
+    onMarkBtnClick
+}) {
     // const [reportList, setReportList] = useState(new Set());
     // const [reportModalOn, setReportModalOn] = useState(false);
 
