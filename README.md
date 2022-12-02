@@ -1,8 +1,8 @@
 # Mock Test APP
 It's an exam system or say quizz app made to be operable on Android phones. Here users can practise for different types of exams even without internet connections.
 
-<img src="./assets/Exam_screen.png" width="50%" height="auto" />
-<img src="./assets/Result.png" width="50%" height="auto" />
+<img src="./assets/images/Exam_screen.png" width="100%" height="auto" />
+<img src="./assets/images/Result.png" width="100%" height="auto" />
 
 ## This project will solve problems of :-
 * students living in low internet connectivity area.
