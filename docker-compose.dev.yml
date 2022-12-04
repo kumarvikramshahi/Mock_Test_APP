@@ -1,0 +1,13 @@
+version: '3'
+services:
+  mocktest_frontend:
+    build:
+      context: .
+      args:
+        NODE_ENV: development
+    volumes:
+      - ./:/mock_test_frontend
+      - /mock_test_frontend/node_modules
+    environment:
+      - NODE_ENV=development
+    command: expo start

@@ -4195,6 +4195,11 @@ expo-constants@~13.1.0, expo-constants@~13.1.1:
     "@expo/config" "^6.0.14"
     uuid "^3.3.2"
 
+expo-crypto@~10.2.0:
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/expo-crypto/-/expo-crypto-10.2.0.tgz#86d16e7e93b62af37d9ded3d344744e94d6ab4e4"
+  integrity sha512-YVFp+DJXBtt4t6oZXepnzb+xwpKzFbXn3B9Oma1Tfh6J0rIlm/I20UW/5apdvEdbj44fxJ5DsiZeyADI3bcZkQ==
+
 expo-error-recovery@~3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/expo-error-recovery/-/expo-error-recovery-3.1.0.tgz#c841772e11ed55180e30ebf809580ab051b70535"
